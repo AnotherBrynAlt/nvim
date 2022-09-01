@@ -10,3 +10,11 @@ ipairs
 for
 vim
 tbl
+import
+module
+main
+msg
+nvim
+treesitter
+lua
+grammars

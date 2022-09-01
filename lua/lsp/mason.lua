@@ -10,6 +10,7 @@ end
 
 local servers = {
 	'sumneko_lua',
+	'elmls'
 }
 
 mason.setup({
@@ -40,7 +41,7 @@ mason.setup({
 			cancel_installation = "<C-c>",
 			-- Keymap to apply language filter
             apply_language_filter = "<C-f>",
-        },	
+        },
 	},
 --	install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
 	pip = {
@@ -63,13 +64,13 @@ if not lspconfig_status_ok then
 	return
 end
 
-for key, value in pairs(servers) do
-	options = {
+for _, value in pairs(servers) do
+	local options = {
 		on_attach = require('lsp.handlers').on_attach,
 		capabilities = require('lsp.handlers').capabilities,
 	}
 
-	server = vim.split(value, "@")[1]
+	local server = vim.split(value, "@")[1]
 
 	if server == 'sumneko_lua' then
 		local lua_dev_status_ok, lua_dev = pcall(require, 'lua-dev')
@@ -86,6 +87,13 @@ for key, value in pairs(servers) do
 			},
 		})
 		lspconfig.sumneko_lua.setup(luadev)
+		goto continue
+	end
+
+	if server == 'elmls' then
+		local elmls_options = require('lsp.settings.elmls')
+		options = vim.tbl_deep_extend('force', elmls_options, options)
+		lspconfig.elmls.setup(options)
 		goto continue
 	end
 

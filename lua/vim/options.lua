@@ -32,6 +32,8 @@ local options = {
 	writebackup = false,
 }
 
+vim.lsp.set_log_level('debug')
+
 for key, value in pairs(options) do
   vim.opt[key] = value
 end
